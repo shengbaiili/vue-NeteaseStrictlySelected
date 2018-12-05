@@ -4,9 +4,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import HomeHeader from './components/HomeHeader/HomeHeader.vue'
 
-Vue.component('HomeHeader', HomeHeader)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
