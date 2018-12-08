@@ -1,3 +1,5 @@
 export default {
-  cateList:[],
+  cateList: [],
+  kingKongList:[],
+  policyDescList:[],
 }

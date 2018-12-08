@@ -1,6 +1,6 @@
 <!--首页-->
   <template>
-    <div class="warp">
+    <div class="main-warp">
       <div class="header">
         <div class="line">
           <a href="" class="logo"></a>
@@ -13,9 +13,11 @@
           <div class="loginBtn">登录</div>
         </div>
         <div class="tabWrap">
-          <div>
-            <ul class="list">
-              <li class="txt">推荐</li>
+          <div class="nav">
+            <ul class="list" v-if="cateList.length">
+              <li class="txt" v-for="(Array, index) in cateList" :key="index">
+                <a href="">{{Array.name}}</a>
+              </li>
             </ul>
           </div>
         </div>
@@ -64,65 +66,11 @@
       </div>
       <div class="contentArea">
         <div class="commodity">
-            <ul class="commodity-goods">
+            <ul class="commodity-goods" v-for="(item, index) in kingKongList" :key="index">
               <li class="trade-name">
                 <a href="">
-                  <img src="https://yanxuan.nosdn.127.net/98b6a6fc32f1fea861934816729e2cf5.png" alt="">
-                  <span>居家</span>
-                </a>
-              </li>
-              <li class="trade-name">
-                <a href="">
-                  <img src="https://yanxuan.nosdn.127.net/46d33b9a9fbb659fcbac37ec58d51e62.png" alt="">
-                  <span>鞋包配饰</span>
-                </a>
-              </li>
-              <li class="trade-name">
-                <a href="">
-                  <img src="https://yanxuan.nosdn.127.net/31831ada59dc10319cba195620ed9ed0.png" alt="">
-                  <span>服装</span>
-                </a>
-              </li>
-              <li class="trade-name">
-                <a href="">
-                  <img src="https://yanxuan.nosdn.127.net/45833c71d4b0d0de0755a20f893fa25f.png" alt="">
-                  <span>电器</span>
-                </a>
-              </li>
-              <li class="trade-name">
-                <a href="">
-                  <img src="https://yanxuan.nosdn.127.net/c64726637aebb2767c881bf7b3566bbf.png" alt="">
-                  <span>婴童</span>
-                </a>
-              </li>
-              <li class="trade-name">
-                <a href="">
-                  <img src="https://yanxuan.nosdn.127.net/a9d624f91ae8798a502eb5ac15757219.png" alt="">
-                  <span>饮食</span>
-                </a>
-              </li>
-              <li class="trade-name">
-                <a href="">
-                  <img src="https://yanxuan.nosdn.127.net/ec08480030946220229beaebd8ca273f.png" alt="">
-                  <span>洗护</span>
-                </a>
-              </li>
-              <li class="trade-name">
-                <a href="">
-                  <img src="https://yanxuan.nosdn.127.net/fc3e359da08577228354da61ea912c99.png" alt="">
-                  <span>餐厨</span>
-                </a>
-              </li>
-              <li class="trade-name">
-                <a href="">
-                  <img src="https://yanxuan.nosdn.127.net/97eb6fd2c7ea76a3a42b9dafa3bd6543.png" alt="">
-                  <span>文本</span>
-                </a>
-              </li>
-              <li class="trade-name">
-                <a href="">
-                  <img src="https://yanxuan.nosdn.127.net/db5e2ce8c66f7db3f4282ecb24a64236.png" alt="">
-                  <span>超会秒杀</span>
+                  <img :src="item.picUrl" alt="">
+                  <span>{{item.text}}</span>
                 </a>
               </li>
             </ul>
@@ -178,29 +126,40 @@
   </template>
 
   <script>
+    import BScroll from 'better-scroll'
     import {mapState} from 'vuex'
     import Swiper from 'swiper'
     import "swiper/dist/css/swiper.min.css"
 
     export default {
-      name: "Main",
       mounted() {
         var mySwiper = new Swiper('.swiper-container', {
           loop: true, // 循环模式选项
           autoplay:{
             stopOnLastSlide:true
           }
+        });
+        this.$store.dispatch('getCateList', () =>{
+          this.$nextTick(() => {
+            new BScroll('.nav',{
+              scrollX: true,
+              click: true
+            })
+          })
+
         })
+        this.$store.dispatch('getKingKongList')
+        this.$store.dispatch('getPolicyDescList')
       },
       computed:{
-        ...mapState(['cateList'])
+        ...mapState(['cateList', 'kingKongList','policyDescList'])
       }
     }
   </script>
 
   <style lang="stylus" scoped>
     @import "../../common/stylus/mixins.styl"
-    .warp
+    .main-warp
       height 100%
       width 100%
     .header
@@ -260,17 +219,26 @@
        width 100%
        height 100%
        background #fff
-       margin-top -.05rem
-       .list
+       margin-top -.55rem
+       .nav
          display flex
          padding 0 .4rem
-         .txt
+         overflow hidden
+         box-sizing border-box
+
+         .list
            display inline-block
-           padding 0 .21333rem
-           line-height .6rem;
-           font-size .3rem;
-           color #333;
-           text-align center;
+           white-space nowrap
+           .txt
+             display inline-block
+             padding 0 .21333rem
+             line-height .6rem;
+             font-size .3rem;
+             color #333;
+             text-align center;
+             a
+               width 100%
+               height 100%
     .swiper-container
       width: 100%
       height: 4.9333rem

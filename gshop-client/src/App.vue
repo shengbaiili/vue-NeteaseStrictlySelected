@@ -9,11 +9,11 @@
   import FootGuide from './components/FootGuide/FootGuide.vue'
 export default {
     components:{
-      FootGuide
-    }
+         FootGuide
+  }
 }
 </script>
 
-<style>
+<style lang="stylus" rel="stylesheet/stylus">
 
 </style>
